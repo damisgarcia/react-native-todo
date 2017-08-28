@@ -1,17 +1,22 @@
-package br.com.react_native_router_flux_firebase;
+package br.com.react_native_todo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactPackage;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.react_native_router_flux_firebase.generated.ExponentBuildConstants;
+import br.com.react_native_todo.generated.ExponentBuildConstants;
 import host.exp.expoview.ExponentActivity;
 
 public class MainActivity extends ExponentActivity {
+  CallbackManager mCallbackManager;
 
   @Override
   public String publishedUrl() {
@@ -30,7 +35,8 @@ public class MainActivity extends ExponentActivity {
 
   @Override
   public List<ReactPackage> reactPackages() {
-    return ((MainApplication) getApplication()).getPackages();
+    mCallbackManager = new CallbackManager.Factory().create();
+    return ((MainApplication) getApplication()).getPackages(mCallbackManager);
   }
 
   @Override
@@ -42,5 +48,11 @@ public class MainActivity extends ExponentActivity {
   public Bundle initialProps(Bundle expBundle) {
     // Add extra initialProps here
     return expBundle;
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      mCallbackManager.onActivityResult(requestCode, resultCode, data);
   }
 }

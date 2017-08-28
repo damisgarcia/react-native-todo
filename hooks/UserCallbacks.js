@@ -1,23 +1,22 @@
 import { Actions } from 'react-native-router-flux';
 
 import Session from '../constants/Session';
-import FireBaseApp from '../constants/FirebaseApp';
+import FireBaseApp, { FacebookAuthProvider} from '../constants/FirebaseApp';
 
 import { AccessToken } from 'react-native-fbsdk';
 
 export default {
-  signInWithFacebookSuccess: (error, result) => {
-    if (error) {
-      alert("login has error: " + result.error);
-    } else if (result.isCancelled) {
-      alert("login is cancelled.");
-    } else {
-      AccessToken.getCurrentAccessToken().then(
-        (data) => {
-          alert(data.accessToken.toString())
-        }
-      )
-    }
+  signInWithFacebookSuccess: async (token) =>{
+    const credential = FacebookAuthProvider.credential(token);
+    return new Promise( (resolve, reject) => {
+      FireBaseApp.auth().signInWithCredential(credential).then((user) => {
+        Session.create(token);
+        createUserProfile(user);
+        resolve(user)
+      }).catch((error)=>{
+        reject(error)
+      });
+    })
   },
   signInWithEmailAndPasswordSuccess: (data, password) => {
     createUserProfile(data)
@@ -40,5 +39,7 @@ export default {
 async function createUserProfile(user) {
   await FireBaseApp.database().ref(`/users/${user.uid}/profile`).set({
     email: user.email,
+    name: user.displayName,
+    avatar: user.photoUrl
   })
 }

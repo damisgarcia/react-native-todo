@@ -1,14 +1,16 @@
 import * as firebase from 'firebase';
 
 const config = {
-  apiKey: "AIzaSyCONqfNXX-RGfLfapei-K2Yi8aK-KJrGDE",
-  authDomain: "project-6757960052769325295.firebaseapp.com",
-  databaseURL: "https://project-6757960052769325295.firebaseio.com",
-  projectId: "project-6757960052769325295",
-  storageBucket: "project-6757960052769325295.appspot.com",
-  messagingSenderId: "943879760644"
+  apiKey: "AIzaSyCHgghTlIb1Al1e4lhf0wYmx3gWGbkHxYE",
+  authDomain: "todo-3b459.firebaseapp.com",
+  databaseURL: "https://todo-3b459.firebaseio.com",
+  projectId: "todo-3b459",
+  storageBucket: "todo-3b459.appspot.com",
+  messagingSenderId: "41395065013"
 };
 
-const FireBaseApp  = firebase.initializeApp(config);
+const FireBaseApp = firebase.initializeApp(config);
+// FacebookLogin connnector
+export const FacebookAuthProvider = firebase.auth.FacebookAuthProvider
 
 export default FireBaseApp;

@@ -1,6 +1,5 @@
 {
   "name": "react-native-todo",
-  "name": "react-native-todo",
   "description": "An empty new project",
   "slug": "react-native-todo",
   "privacy": "public",
@@ -23,7 +22,7 @@
     "supportsTablet": true
   },
   "android": {
-    "package": "br.com.react_native_router_flux_firebase"
+    "package": "br.com.react_native_todo"
   },
   "isDetached": true,
   "detach": {

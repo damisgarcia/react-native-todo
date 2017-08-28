@@ -1,6 +1,6 @@
 import Expo from 'expo';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
 import FireBaseApp from './constants/FirebaseApp';
 import Session from './constants/Session';
@@ -41,4 +41,5 @@ export default class MainApplication extends React.Component {
   }
 }
 
+// AppRegistry.registerComponent('MainApplication', () => MainApplication() );
 Expo.registerRootComponent(MainApplication);

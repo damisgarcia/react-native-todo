@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">react-native-todo</string>
   <string name="facebook_app_id">135375410407639</string>
+  <string name="fb_login_protocol_scheme">fb135375410407639</string>
 </resources>

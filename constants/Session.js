@@ -1,11 +1,11 @@
 import { AsyncStorage } from 'react-native';
 
 export default {
-  create: async (credential, secret) => {
+  create: async (token) => {
     try {
       await AsyncStorage.setItem(
-        "@MyCredential",
-        JSON.stringify( { email: credential.email, pass: secret } )
+        "@TOKEN",
+        JSON.stringify(token)
       )
     } catch (e) {
       console.log(e)
@@ -13,8 +13,8 @@ export default {
   },
   get: async () => {
     try{
-      const credential = await AsyncStorage.getItem('@MyCredential');
-      return credential ? JSON.parse(credential) : null;
+      const token = await AsyncStorage.getItem('@TOKEN');
+      return token ? token : null;
     } catch(e){
       console.log(e)
       return null

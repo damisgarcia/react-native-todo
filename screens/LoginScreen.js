@@ -24,17 +24,15 @@ export default class LoginScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={Layout.grid}>
           <View style={Layout.col}>
-            <FacebookLogin></FacebookLogin>
+            <FacebookLogin onLoginFinished={this.onLoginFinished}></FacebookLogin>
           </View>
         </ScrollView>
       </View>
     );
   }
 
-  login() {
-    FireBaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then( data => UserCallbacks.signInWithEmailAndPasswordSuccess(data, this.state.password))
-      .catch(UserCallbacks.signInWithEmailAndPasswordFail)
+  onLoginFinished() {
+    Actions.authorized()
   }
 }
 
