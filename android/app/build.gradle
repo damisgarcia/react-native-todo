@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 26
-  buildToolsVersion '26.0.1'
+  compileSdkVersion 25
+  buildToolsVersion '25.0.1'
 
   defaultConfig {
     applicationId "br.com.react_native_router_flux_firebase"
     minSdkVersion 19
-    targetSdkVersion 26
+    targetSdkVersion 25
     versionCode 1
     versionName "1.0"
     multiDexEnabled true
@@ -49,6 +49,7 @@ repositories{
 }
 
 dependencies {
+    compile project(':react-native-fbsdk')
     compile project(':react-native-vector-icons')
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'

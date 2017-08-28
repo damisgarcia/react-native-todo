@@ -12,6 +12,8 @@ import FireBaseApp from '../constants/FirebaseApp';
 
 import UserCallbacks from '../hooks/UserCallbacks';
 
+import FacebookLogin from '../components/FacebookLogin';
+
 export default class LoginScreen extends React.Component {
   state = {
     email: '',
@@ -22,10 +24,7 @@ export default class LoginScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={Layout.grid}>
           <View style={Layout.col}>
-            <FormInput inputStyle={Theme.formInput} placeholder="your@email.com" onChangeText={ email => this.setState({email}) }></FormInput>
-            <FormInput inputStyle={Theme.formInput} placeholder="Password" secureTextEntry={true} onChangeText={ password => this.setState({password}) }></FormInput>
-            <Button buttonStyle={Theme.btnPrimary} raised title="Login" onPress={ _=> this.login() }></Button>
-            <Button buttonStyle={Theme.btn} raised title="Registrar-se" onPress={ _=> Actions.register() }></Button>
+            <FacebookLogin></FacebookLogin>
           </View>
         </ScrollView>
       </View>

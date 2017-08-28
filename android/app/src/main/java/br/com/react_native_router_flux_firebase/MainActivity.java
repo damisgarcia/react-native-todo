@@ -15,7 +15,7 @@ public class MainActivity extends ExponentActivity {
 
   @Override
   public String publishedUrl() {
-    return "exp://exp.host/@damisgarcia/blank-project-with-router-flux";
+    return "exp://exp.host/@damisgarcia/react-native-todo";
   }
 
   @Override
