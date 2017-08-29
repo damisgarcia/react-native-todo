@@ -6,6 +6,7 @@ import Session from '../constants/Session';
 
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
+import TodoScreen from '../screens/TodoScreen';
 
 import Firebase from '../services/Firebase';
 
@@ -25,12 +26,17 @@ class Navigator extends Component{
                 title="Login"
                 />
             </Scene>
-            <Scene key="authorized" type="replace" initial={this.props.authorized}>
+            <Scene key="authorized" initial={this.props.authorized}>
               <Scene
                 key="home"
                 component={HomeScreen}
                 type="replace"
                 title="Home"
+                />
+              <Scene
+                key="todo"
+                type="push"
+                component={TodoScreen}
                 />
             </Scene>
           </Scene>

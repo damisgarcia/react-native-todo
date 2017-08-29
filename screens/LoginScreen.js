@@ -31,7 +31,7 @@ export default class LoginScreen extends React.Component {
   }
 
   onLoginFinished() {
-    Actions.authorized()
+    Actions.authorized({type: 'reset'})
   }
 }
 
