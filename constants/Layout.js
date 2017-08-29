@@ -3,10 +3,12 @@ export default {
     flex: 1
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 1,
   },
   col: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    flex: 1,
   },
   padding: {
     marginVertical: 24,

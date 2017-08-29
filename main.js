@@ -2,7 +2,7 @@ import Expo from 'expo';
 import React from 'react';
 import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
-import FireBaseApp from './constants/FirebaseApp';
+import { Facebook } from './services/Firebase';
 import Session from './constants/Session';
 
 import Navigator from './navigation/Navigator';
@@ -25,15 +25,14 @@ export default class MainApplication extends React.Component {
 
   async _cacheResourcesAsync(){
     // siginWithCredential
-    await Session.get().then((user) => {
-      if(user){
-        try {
-          FireBaseApp.auth().signInWithEmailAndPassword(user.email, user.pass).then( data => {
-            this.setState({isAuthorized: true, isReady: true});
-          });
-        } catch (e) {
+    await Session.get().then((token) => {
+      if(token){
+        Facebook.auth(token, (user)=> {
+          this.setState({isAuthorized: true, isReady: true});
+        },
+        (error) => {
           this.setState({isReady: true});
-        }
+        })
       } else{
         this.setState({isReady: true})
       };

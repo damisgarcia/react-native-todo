@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Router, Scene } from 'react-native-router-flux';
 
-import FireBaseApp from '../constants/FirebaseApp';
 import Session from '../constants/Session';
 
 import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 
+import Firebase from '../services/Firebase';
 
 class Navigator extends Component{
   constructor(props){
@@ -24,11 +23,6 @@ class Navigator extends Component{
               <Scene key="login"
                 component={LoginScreen}
                 title="Login"
-                />
-              <Scene
-                key="register"
-                component={RegisterScreen}
-                title="Register"
                 />
             </Scene>
             <Scene key="authorized" type="replace" initial={this.props.authorized}>

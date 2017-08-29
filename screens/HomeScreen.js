@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';
 
-import FireBaseApp from '../constants/FirebaseApp';
+import Firebase from '../services/Firebase';
 
 import LogoutButton from '../components/LogoutButton';
 
@@ -15,7 +15,7 @@ export default class HomeScreen extends React.Component {
     super(props);
   }
   render() {
-    let { currentUser } = FireBaseApp.auth()
+    let { currentUser } = Firebase.auth();
     return (
       <ScrollView style={Layout.grid}>
         <View style={Layout.padding}>

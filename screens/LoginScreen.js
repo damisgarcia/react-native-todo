@@ -8,7 +8,6 @@ import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';
 
 import Session from '../constants/Session';
-import FireBaseApp from '../constants/FirebaseApp';
 
 import UserCallbacks from '../hooks/UserCallbacks';
 
@@ -22,11 +21,11 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={Layout.grid}>
-          <View style={Layout.col}>
+        <View style={Layout.col}>
+          <View style={[styles.container,styles.red]}>
             <FacebookLogin onLoginFinished={this.onLoginFinished}></FacebookLogin>
           </View>
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -38,9 +37,10 @@ export default class LoginScreen extends React.Component {
 
 
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     backgroundColor: '#fff',
   }
-};
+});

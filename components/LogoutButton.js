@@ -5,7 +5,7 @@ import { Button }  from 'react-native-elements';
 import Theme from '../constants/Theme';
 import Session from '../constants/Session';
 
-import FireBaseApp from '../constants/FirebaseApp';
+import Firebase from '../services/Firebase';
 
 export default class LogoutButton extends React.Component {
   render(){
@@ -13,7 +13,7 @@ export default class LogoutButton extends React.Component {
   }
 
   destroySession(){
-    FireBaseApp.auth().signOut()
+    Firebase.auth().signOut()
     .then( _=> {
       Session.destroy()
       Actions.unauthorized({type: ActionConst.RESET})

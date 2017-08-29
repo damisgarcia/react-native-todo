@@ -3,10 +3,7 @@ import { AsyncStorage } from 'react-native';
 export default {
   create: async (token) => {
     try {
-      await AsyncStorage.setItem(
-        "@TOKEN",
-        JSON.stringify(token)
-      )
+      await AsyncStorage.setItem("@TOKEN", token)
     } catch (e) {
       console.log(e)
     }
@@ -14,7 +11,7 @@ export default {
   get: async () => {
     try{
       const token = await AsyncStorage.getItem('@TOKEN');
-      return token ? token : null;
+      return token;
     } catch(e){
       console.log(e)
       return null
