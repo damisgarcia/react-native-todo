@@ -1,3 +1,4 @@
 export default {
-  primaryColor: "#3D90F3"
+  primaryColor: "#3D90F3",
+  borderColor: "#ccc"
 }

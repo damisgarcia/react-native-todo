@@ -10,7 +10,9 @@ export default {
     backgroundColor: Colors.primaryColor,
   },
   formInput:{
-    marginTop: 4,
-    marginBottom: 4,
+    flex: 1,
+    paddingVertical: 8,
+    fontSize: 15,
+    borderBottomColor: Colors.borderColor
   }
 }
