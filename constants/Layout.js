@@ -10,6 +10,12 @@ export default {
     flexDirection: 'column',
     flex: 1,
   },
+  inputForm:{
+    paddingVertical: 8,
+    marginVertical: 16,
+    marginHorizontal: 16,
+    fontSize: 18,
+  },
   padding: {
     marginVertical: 24,
     marginHorizontal: 16,

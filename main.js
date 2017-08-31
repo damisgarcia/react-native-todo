@@ -1,8 +1,15 @@
 import Expo from 'expo';
 import React from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 
 import { Facebook } from './services/Firebase';
+
 import Session from './constants/Session';
 
 import Navigator from './navigation/Navigator';
@@ -17,7 +24,9 @@ export default class MainApplication extends React.Component {
   }
   render(){
     if(this.state.isReady){
-      return <Navigator authorized={this.state.isAuthorized}/>;
+      return (
+        <Navigator authorized={this.state.isAuthorized}/>
+      );
     } else{
       return <Expo.AppLoading/>;
     }

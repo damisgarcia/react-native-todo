@@ -4,9 +4,12 @@ import { Router, Scene } from 'react-native-router-flux';
 
 import Session from '../constants/Session';
 
+import { CreateTodoButton, DestroyTodoButton } from './todo';
+
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import TodoScreen from '../screens/TodoScreen';
+import TodoFormModal from '../screens/TodoFormModal';
 
 import Firebase from '../services/Firebase';
 
@@ -30,13 +33,19 @@ class Navigator extends Component{
               <Scene
                 key="home"
                 component={HomeScreen}
+                renderRightButton={CreateTodoButton}
                 type="replace"
                 title="Home"
                 />
               <Scene
                 key="todo"
                 type="push"
+                renderRightButton={DestroyTodoButton}
                 component={TodoScreen}
+                />
+              <Scene
+                key="todoForm"
+                component={TodoFormModal}
                 />
             </Scene>
           </Scene>

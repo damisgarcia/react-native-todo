@@ -26,6 +26,7 @@ import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';
 
 import Firebase from '../services/Firebase';
+import { Todo, Task } from '../services/Models';
 
 import InputForm from '../components/InputForm';
 import LogoutButton from '../components/LogoutButton';
@@ -34,29 +35,32 @@ import * as _ from "lodash";
 
 export default class TodoScreen extends React.Component {
   state = {
-    model: {
-      name: "Lorem Ipsum 1",
-      tasks: [
-        {
-          name: "Task 1",
-          done: false
-        },
-        {
-          name: "Task 2",
-          done: false
-        },
-        {
-          name: "Task 3",
-          done: false
-        }
-      ]
-    },
+    model: {},
     currentTask: null,
     focused: false
   }
 
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount(){
+    Todo.get(this.props.todo.key, (snapshotData) =>{
+      this.setState({model: snapshotData.val()})
+
+      Task.all(this.props.todo, (snapshotData) =>{
+        let tasks = []
+
+        snapshotData.forEach((child) => {
+          tasks.push({key: child.key, ...child.val()});
+        })
+
+        if(tasks.length){
+          this.state.model.tasks = tasks;
+          this.setState({model: this.state.model});
+        }
+      })
+    })
   }
 
   render() {
@@ -77,41 +81,48 @@ export default class TodoScreen extends React.Component {
   }
 
   createTask(){
-    this.state.model.tasks.push({
+    let newTask = {
       name: "",
       done: false
-    });
-    this.setState({ model: this.state.model });
+    };
+
+    Task.save(this.props.todo, newTask)
   }
 
   deleteTask(taskId){
+    let taskKey = this.state.model.tasks[taskId].key;
+    // Remove from local list
     this.state.model.tasks.splice(taskId, 1);
+    // Update state
     this.setState({ model: this.state.model });
+    // Sync with Database
+    Task.destroy(this.props.todo, taskKey)
   }
 
   _renderTasks(tasks) {
-    return tasks.map((t, i) => (
-      <View style={Layout.col} key={i}>
-        <View style={styles.listContainer}>
-          <InputForm
-            style={Theme.formInput}
-            value={t.name}
-            onBlur={ _=> this._onBlur() }
-            onFocus={ _=> this._onFocus(i) }
-            onChangeText={ (name)=> this._onChangeNameTask(name, t) }
-          />
-          <CheckBox
-            center
-            checked={t.done}
-            containerStyle={styles.checkBoxContainerStyle}
-            onPress={ _=> this._onChangeToggleTask(t) }
-            iconType='material'
-            checkedIcon='check'
-            uncheckedIcon='check-box-outline-blank' />
-            { this._renderRemoveButton(i) }
+    if(_.isArray(tasks))
+      return tasks.map((t, i) => (
+        <View style={Layout.col} key={i}>
+          <View style={styles.listContainer}>
+            <InputForm
+              style={Theme.formInput}
+              value={t.name}
+              onBlur={ _=> this._onBlur() }
+              onFocus={ _=> this._onFocus(i) }
+              onChangeText={ (name)=> this._onChangeNameTask(name, t) }
+            />
+            <CheckBox
+              center
+              checked={t.done}
+              containerStyle={styles.checkBoxContainerStyle}
+              onPress={ _=> this._onChangeToggleTask(t) }
+              iconType='material'
+              checkedIcon='check'
+              uncheckedIcon='check-box-outline-blank' />
+              { this._renderRemoveButton(i) }
+          </View>
         </View>
-      </View>
-    ))
+      ))
   }
 
   _renderRemoveButton(taskId){
@@ -136,12 +147,18 @@ export default class TodoScreen extends React.Component {
 
   _onChangeNameTask(name, task){
     task.name = name;
+    // Update State
     this.setState({model: this.state.model});
+    // Sync with Database
+    Task.save(this.props.todo, task);
   }
 
   _onChangeToggleTask(task) {
     task.done = !task.done;
+    // Update State
     this.setState({model: this.state.model});
+    // Sync with Database
+    Task.save(this.props.todo, task);
   }
 }
 

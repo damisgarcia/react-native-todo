@@ -9,10 +9,19 @@ const config = {
   messagingSenderId: "41395065013"
 };
 
+export var UID = null
+
 export const Facebook = {
   auth: async (token, callback, onError) => {
-    let credential = Facebook.credential(token);
-    Firebase.auth().signInWithCredential(credential).then(callback).catch(onError);
+    try {
+      let credential = Facebook.credential(token);
+      Firebase.auth().signInWithCredential(credential).then( (response)=> {
+        UID = response.uid
+        callback(response)
+      }).catch(onError);
+    } catch (e) {
+      console.log(e)
+    }
   },
   credential: (token) => {
     return firebase.auth.FacebookAuthProvider.credential(token);

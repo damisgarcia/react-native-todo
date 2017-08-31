@@ -11,33 +11,12 @@ export default class InputForm extends React.Component {
   }
   constructor(props){
     super(props)
-    // overide
-    this.props.onFocus = () =>{
-      this.props.onFocus()
-      this.setState({ focused: true })
-    }
-    // overide
-    this.props.onBlur = () =>{
-      this.props.onBlur()
-      this.setState({ focused: false })
-    }
   }
   render(){
     return (
       <TextInput
-        onFocus={ _=> this._onFocus() }
-        onBlur={ _=> this._onBlur() }
-        underlineColorAndroid={ this.state.focused ? Colors.primaryColor : Colors.borderColor }
         { ...this.props }
       />
     );
-  }
-  _onFocus(){
-    this.props.onFocus()
-    this.setState({ focused: true })
-  }
-  _onBlur(){
-    this.props.onBlur()
-    this.setState({ focused: true })
   }
 }
