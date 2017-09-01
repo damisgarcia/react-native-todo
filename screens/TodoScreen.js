@@ -4,7 +4,7 @@ import {
   View,
   Switch,
   TextInput,
-  TouchableWithoutFeedback
+  TouchableNativeFeedback
 } from 'react-native';
 
 import {
@@ -14,7 +14,7 @@ import {
   FormInput,
   Icon,
   List,
-  ListItem
+  ListItem,
 } from 'react-native-elements';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -68,12 +68,14 @@ export default class TodoScreen extends React.Component {
     return (
       <View style={styles.container}>
         <KeyboardAwareScrollView>
-          <ScrollView style={Layout.grid}>
+          <ScrollView style={{ ...Layout.grid }}>
             <Text style={styles.title} h4>Tasks</Text>
-            <TouchableWithoutFeedback onPress={ _=> this.createTask() }>
-              <Text h4 style={styles.createTaskBtn}>+ Create Task</Text>
-            </TouchableWithoutFeedback>
             {  this._renderTasks(this.state.model.tasks)  }
+            <TouchableNativeFeedback
+              onPress={ _=> this.createTask() }
+              background={TouchableNativeFeedback.SelectableBackground()}>
+              <Text h4 style={styles.createTaskBtn}>+ Create Task</Text>
+            </TouchableNativeFeedback>
           </ScrollView>
         </KeyboardAwareScrollView>
       </View>
@@ -99,16 +101,23 @@ export default class TodoScreen extends React.Component {
     Task.destroy(this.props.todo, taskKey)
   }
 
+  focusNext(next){
+    console.log(this.refs)
+  }
+
   _renderTasks(tasks) {
     if(_.isArray(tasks))
       return tasks.map((t, i) => (
         <View style={Layout.col} key={i}>
           <View style={styles.listContainer}>
             <InputForm
+              ref={`input${i}`}
               style={Theme.formInput}
               value={t.name}
+              returnKeyType="next"
               onBlur={ _=> this._onBlur() }
               onFocus={ _=> this._onFocus(i) }
+              onSubmitEditing={ _ => this.focusNext(`input${i+1}`) }
               onChangeText={ (name)=> this._onChangeNameTask(name, t) }
             />
             <CheckBox

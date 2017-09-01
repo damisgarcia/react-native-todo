@@ -44,6 +44,7 @@ export default class TodoScreen extends React.Component {
       <View style={styles.container}>
         <InputForm
           style={Layout.inputForm}
+          autoFocus={true}
           value={this.state.name}
           placeholder="Todo Title"
           onChangeText={ (name)=> this.setState({name}) }
