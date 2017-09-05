@@ -13,7 +13,7 @@ export const User = {
 
 export const Todo = {
   all: (callback) => {
-    return Firebase.database().ref(`/todos`).orderByChild(`members/${UID}`).equalTo(true).on("value", (snapshot) => callback(snapshot) )
+    return Firebase.database().ref('/todos').orderByChild(`members/${UID}`).equalTo(true).on("value", (snapshot) => callback(snapshot) )
   },
   get: async (key, callback) => {
     return await Firebase.database().ref(`/todos/${key}`).once("value").then(callback)
@@ -40,7 +40,7 @@ export const Todo = {
 
 export const Task = {
   all: (todo, callback) => {
-    return Firebase.database().ref(`/todos/${todo.key}/tasks`).on("value", (snapshot) => callback(snapshot) )
+    let ref = Firebase.database().ref(`/todos/${todo.key}/tasks`).once("value", (snapshot) => callback(snapshot) )
   },
   get: async (todo, key, callback) => {
     return await Firebase.database().ref(`/todos/${todo.key}/tasks/${key}`).once("value").then(callback)

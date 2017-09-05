@@ -26,10 +26,11 @@ import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';
 
 import Firebase from '../services/Firebase';
+import Helpers from '../services/Helpers';
 import { Todo, Task } from '../services/Models';
 
+import TaskList from '../components/TaskList';
 import InputForm from '../components/InputForm';
-import LogoutButton from '../components/LogoutButton';
 
 import * as _ from "lodash";
 
@@ -42,18 +43,16 @@ export default class TodoScreen extends React.Component {
 
   constructor(props) {
     super(props);
-  }
 
-  componentWillMount(){
     Todo.get(this.props.todo.key, (snapshotData) =>{
-      this.setState({model: snapshotData.val()})
+      let model = snapshotData.val();
+
+      model.members = _.keys(model.members);
+
+      this.setState({model: model});
 
       Task.all(this.props.todo, (snapshotData) =>{
-        let tasks = []
-
-        snapshotData.forEach((child) => {
-          tasks.push({key: child.key, ...child.val()});
-        })
+        let tasks = Helpers.snapshotDataToArray(snapshotData)
 
         if(tasks.length){
           this.state.model.tasks = tasks;
@@ -70,12 +69,23 @@ export default class TodoScreen extends React.Component {
         <KeyboardAwareScrollView>
           <ScrollView style={{ ...Layout.grid }}>
             <Text style={styles.title} h4>Tasks</Text>
-            {  this._renderTasks(this.state.model.tasks)  }
+
+            <TaskList
+               tasks={this.state.model.tasks}
+               onChangeToggleTask={(task) => this._onChangeToggleTask(task)}
+               onBlurOrSubmit={(task) => this._onBlurOrSubmit(task)}
+               onFocus={(taskIndex) => this._onFocus(taskIndex)}
+               onChangeNameTask={(name, task) => this._onChangeNameTask(name, task)}
+               rightButton={(task, taskIndex) => this._renderRemoveButton(taskIndex)}
+            />
+
             <TouchableNativeFeedback
               onPress={ _=> this.createTask() }
               background={TouchableNativeFeedback.SelectableBackground()}>
               <Text h4 style={styles.createTaskBtn}>+ Create Task</Text>
             </TouchableNativeFeedback>
+
+            {  this._renderMembers(this.state.model.members)  }
           </ScrollView>
         </KeyboardAwareScrollView>
       </View>
@@ -88,7 +98,12 @@ export default class TodoScreen extends React.Component {
       done: false
     };
 
-    Task.save(this.props.todo, newTask)
+    // Remove from local list
+    this.state.model.tasks.push(newTask);
+    // Update state
+    this.setState({model: this.state.model})
+    // Sync with Database
+    Task.save(this.props.todo, newTask);
   }
 
   deleteTask(taskId){
@@ -101,35 +116,15 @@ export default class TodoScreen extends React.Component {
     Task.destroy(this.props.todo, taskKey)
   }
 
-  focusNext(next){
-    console.log(this.refs)
+  isActiveDeleteButton(){
+    return (this.state.focused && taskId === this.state.currentTask || taskId === this.state.currentTask);
   }
 
-  _renderTasks(tasks) {
-    if(_.isArray(tasks))
-      return tasks.map((t, i) => (
+  _renderMembers(members) {
+    if(_.isArray(members))
+      return members.map((m, i) => (
         <View style={Layout.col} key={i}>
-          <View style={styles.listContainer}>
-            <InputForm
-              ref={`input${i}`}
-              style={Theme.formInput}
-              value={t.name}
-              returnKeyType="next"
-              onBlur={ _=> this._onBlur() }
-              onFocus={ _=> this._onFocus(i) }
-              onSubmitEditing={ _ => this.focusNext(`input${i+1}`) }
-              onChangeText={ (name)=> this._onChangeNameTask(name, t) }
-            />
-            <CheckBox
-              center
-              checked={t.done}
-              containerStyle={styles.checkBoxContainerStyle}
-              onPress={ _=> this._onChangeToggleTask(t) }
-              iconType='material'
-              checkedIcon='check'
-              uncheckedIcon='check-box-outline-blank' />
-              { this._renderRemoveButton(i) }
-          </View>
+          <Text>{i}</Text>
         </View>
       ))
   }
@@ -146,8 +141,10 @@ export default class TodoScreen extends React.Component {
     }
   }
 
-  _onBlur(){
+  _onBlurOrSubmit(task){
     this.setState({ focused: false })
+    // Sync with Database
+    Task.save(this.props.todo, task);
   }
 
   _onFocus(taskId){
@@ -158,8 +155,6 @@ export default class TodoScreen extends React.Component {
     task.name = name;
     // Update State
     this.setState({model: this.state.model});
-    // Sync with Database
-    Task.save(this.props.todo, task);
   }
 
   _onChangeToggleTask(task) {
@@ -195,13 +190,13 @@ const styles = {
     paddingHorizontal: 16
   },
   checkBoxContainerStyle: {
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
     alignItems: 'center',
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
     borderColor: 'transparent',
+    marginLeft: -4,
     padding: 0,
-    marginRight: -8,
   },
   createTaskBtn:{
     color: Colors.borderColor,

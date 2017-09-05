@@ -19,6 +19,13 @@ export default class MainApplication extends React.Component {
     isAuthorized: false,
     isReady: false
   }
+  constructor(){
+    super();
+
+    console.ignoredYellowBox = [
+      'Setting a timer'
+    ];
+  }
   componentWillMount(){
     this._cacheResourcesAsync();
   }
