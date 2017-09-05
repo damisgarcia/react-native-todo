@@ -9,8 +9,6 @@ import {
   CheckBox,
   FormInput,
   Icon,
-  List,
-  ListItem,
 } from 'react-native-elements';
 
 import Colors from '../constants/Colors';
@@ -57,7 +55,7 @@ export default class TaskItem extends React.Component {
         </View>
       </View>
     );
-  }  
+  }
 }
 
 
@@ -79,11 +77,6 @@ const styles = {
     paddingVertical: 8,
     fontSize: 18
   },
-  title: {
-    flex: 1,
-    paddingVertical: 24,
-    paddingHorizontal: 16
-  },
   checkBoxContainerStyle: {
     flexDirection: 'column-reverse',
     alignItems: 'center',
@@ -93,10 +86,4 @@ const styles = {
     marginLeft: -4,
     padding: 0,
   },
-  createTaskBtn:{
-    color: Colors.borderColor,
-    paddingTop: 4,
-    paddingBottom: 16,
-    paddingHorizontal: 16,
-  }
 }

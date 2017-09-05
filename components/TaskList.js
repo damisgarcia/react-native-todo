@@ -14,7 +14,7 @@ export default class TaskList extends React.Component {
   render(){
     if(_.isArray(this.props.tasks)){
       return(
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
           {
             this.renderItems()
           }
@@ -23,13 +23,19 @@ export default class TaskList extends React.Component {
 
     } else{
       return (
-        <Text>Loading...</Text>
+        <Text style={{margin: 16}}>Loading...</Text>
       );
     }
   }
   renderItems(){
     return this.props.tasks.map((t, i) => (
-      <TaskItem task={t} index={i} {...this.props} />
+      <TaskItem key={i} task={t} index={i} {...this.props} />
     ))
+  }
+}
+
+const styles = {
+  container: {
+    flex: 1,
   }
 }

@@ -30,6 +30,8 @@ import Helpers from '../services/Helpers';
 import { Todo, Task } from '../services/Models';
 
 import TaskList from '../components/TaskList';
+import MemberList from '../components/MemberList';
+
 import InputForm from '../components/InputForm';
 
 import * as _ from "lodash";
@@ -85,7 +87,8 @@ export default class TodoScreen extends React.Component {
               <Text h4 style={styles.createTaskBtn}>+ Create Task</Text>
             </TouchableNativeFeedback>
 
-            {  this._renderMembers(this.state.model.members)  }
+            <MemberList members={this.state.model.members} />
+
           </ScrollView>
         </KeyboardAwareScrollView>
       </View>
@@ -172,31 +175,10 @@ const styles = {
     flexDirection: 'column',
     paddingBottom: 36
   },
-  listContainer: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center',
-    marginHorizontal: 16,
-  },
-  listItem: {
-    flex: 1,
-    paddingLeft: 4,
-    paddingVertical: 8,
-    fontSize: 18
-  },
   title: {
     flex: 1,
     paddingVertical: 24,
     paddingHorizontal: 16
-  },
-  checkBoxContainerStyle: {
-    flexDirection: 'column-reverse',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    marginLeft: -4,
-    padding: 0,
   },
   createTaskBtn:{
     color: Colors.borderColor,

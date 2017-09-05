@@ -8,6 +8,9 @@ export const User = {
       name: data.displayName,
       avatar: data.photoURL
     })
+  },
+  get: async (key, callback) =>{
+    return await Firebase.database().ref(`/users/${key}`).once("value").then(callback)
   }
 }
 
