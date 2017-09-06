@@ -1,3 +1,7 @@
+import {
+  ToastAndroid
+} from "react-native";
+
 import * as _ from 'lodash';
 import Firebase, { UID } from '../services/Firebase';
 
@@ -29,6 +33,7 @@ export const Todo = {
       todoKey =  Firebase.database().ref(`/todos`).push().key;
 
       data.members = {}
+      data.owner = UID
       data.members[UID] = true
     }
 
@@ -36,12 +41,36 @@ export const Todo = {
 
     return Firebase.database().ref().update(updates);
   },
-  destroy: async(todoKey) =>{
-    let updates = {}
+  destroy: async(todo) =>{
+    try {
+      if(todo.owner != UID){
+        throw "You not Owner this list."
+      }
 
-    updates[`/todos/${todoKey}`] = null
+      let updates = {}
 
-    return await Firebase.database().ref().update(updates);
+      updates[`/todos/${todo.key}`] = null
+
+      return await Firebase.database().ref().update(updates);
+    } catch (e) {
+      return ToastAndroid.show(e, ToastAndroid.LONG);
+    }
+  },
+  joinMember: async (todoKey, callback) => {
+    let updates = {};
+
+    Todo.get(todoKey, (snapshotData) => {
+      if(snapshotData.val() !== null){
+        updates[`/todos/${todoKey}/members/${UID}`] = true
+        try {
+          Firebase.database().ref().update(updates).then(callback)
+        } catch (e) {
+          return ToastAndroid.show(e, ToastAndroid.LONG);
+        }
+      } else{
+        return ToastAndroid.show("Code Incorrect", ToastAndroid.LONG);
+      }
+    })
   }
 }
 

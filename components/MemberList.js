@@ -1,15 +1,19 @@
 import React from "react";
 import {
   View,
+  Share
 } from "react-native";
 
 import {
   Card,
   Text,
-  List
+  List,
+  Button
 } from 'react-native-elements';
 
 import * as _ from "lodash";
+
+import Theme from "../constants/Theme";
 
 import MemberItem from "./MemberItem";
 import InputForm from "./InputForm";
@@ -28,6 +32,12 @@ export default class MemberList extends React.Component {
               this.renderMembers()
             }
           </List>
+          <Button
+            icon={{name: 'share', type: 'material'}}
+            buttonStyle={{ ...Theme.btnPrimary, marginVertical: 16 }}
+            title="Convidar Membros"
+            onPress={ ()=> this.inviteMember() }
+          />
         </View>
       );
 
@@ -39,8 +49,15 @@ export default class MemberList extends React.Component {
   }
   renderMembers(){
     return this.props.members.map((m, i) => (
-      <MemberItem key={i} member={m} index={i} {...this.props} />
+      <MemberItem key={i} member={m} isOwner={m === this.props.owner} index={i} {...this.props} />
     ))
+  }
+
+  inviteMember(){
+    Share.share({
+      message: `Copy and paste the code this code your application: \n ${this.props.parent.key.toString()}`,
+      title: `You have been invited to be part of the ${this.props.parent.name} list.`
+    });
   }
 }
 

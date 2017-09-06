@@ -2,8 +2,7 @@ import Colors from "./Colors";
 
 export default {
   btn:{
-    marginTop: 4,
-    marginBottom: 4
+    marginVertical: 16
   },
   btnPrimary:{
     ...this.btn,

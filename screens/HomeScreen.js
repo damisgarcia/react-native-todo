@@ -11,6 +11,7 @@ import Layout from '../constants/Layout';
 import Firebase from '../services/Firebase';
 import { Todo } from '../services/Models';
 
+import DeepLinks from '../components/DeepLinks';
 import LogoutButton from '../components/LogoutButton';
 
 export default class HomeScreen extends React.Component {
@@ -39,10 +40,18 @@ export default class HomeScreen extends React.Component {
 
     return (
       <ScrollView style={Layout.grid}>
+        <DeepLinks />
         <Text style={Layout.padding} h2>Todo Lists</Text>
         <List>
           { this._renderListItem() }
         </List>
+
+        <Button
+          buttonStyle={Theme.btn}
+          title="Join in List"
+          onPress={ _=> Actions.todoJoin() }
+        />
+
         <View style={Layout.padding}>
           <Text>Olá, {currentUser.email}</Text>
         </View>

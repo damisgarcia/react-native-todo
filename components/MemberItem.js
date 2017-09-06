@@ -40,6 +40,7 @@ export default class MemberItem extends React.Component {
         roundAvatar
         key={this.props.index}
         title={this.state.member.name}
+        subtitle={this.props.isOwner ? "Owner" : "Invited"}
         avatar={this.state.member.avatar}
       />
     );

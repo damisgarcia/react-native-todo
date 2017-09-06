@@ -9,6 +9,7 @@ import { CreateTodoButton, DestroyTodoButton } from './todo';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import TodoScreen from '../screens/TodoScreen';
+import TodoJoinScreen from '../screens/TodoJoinScreen';
 import TodoFormModal from '../screens/TodoFormModal';
 
 import Firebase from '../services/Firebase';
@@ -42,6 +43,11 @@ class Navigator extends Component{
                 type="push"
                 renderRightButton={DestroyTodoButton}
                 component={TodoScreen}
+                />
+              <Scene
+                key="todoJoin"
+                component={TodoJoinScreen}
+                title="Insert your code here"
                 />
               <Scene
                 key="todoForm"

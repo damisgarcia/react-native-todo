@@ -50,7 +50,7 @@ function DestroyTodoButtonOnPress(props){
     [
       {text: 'Não', onPress: () => false , style: 'cancel'},
       { text: 'Sim', onPress: () => {
-          Todo.destroy(props.todo.key)
+          Todo.destroy(props.todo)
           Actions.pop()
         }
       }

@@ -47,8 +47,9 @@ export default class TodoScreen extends React.Component {
     super(props);
 
     Todo.get(this.props.todo.key, (snapshotData) =>{
-      let model = snapshotData.val().hasOwnProperty("tasks") ? snapshotData.val() : { ...snapshotData.val(), tasks: [] }
+      let model = snapshotData.val().hasOwnProperty("tasks") ? snapshotData.val() : { ...snapshotData.val(), tasks: []  }
 
+      model.key = snapshotData.key
       model.members = _.keys(model.members);
 
       this.setState({model: model});
@@ -87,7 +88,7 @@ export default class TodoScreen extends React.Component {
               <Text h4 style={styles.createTaskBtn}>+ Create Task</Text>
             </TouchableNativeFeedback>
 
-            <MemberList members={this.state.model.members} />
+            <MemberList parent={this.state.model} members={this.state.model.members} owner={this.state.model.owner} />
 
           </ScrollView>
         </KeyboardAwareScrollView>
