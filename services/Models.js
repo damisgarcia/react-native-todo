@@ -37,7 +37,11 @@ export const Todo = {
     return Firebase.database().ref().update(updates);
   },
   destroy: async(todoKey) =>{
-    return await Firebase.database().ref(`/${UID}/todos/`).child(todoKey).remove()
+    let updates = {}
+
+    updates[`/todos/${todoKey}`] = null
+
+    return await Firebase.database().ref().update(updates);
   }
 }
 
@@ -62,5 +66,8 @@ export const Task = {
   },
   destroy: async(todo, taskKey) =>{
     return await Firebase.database().ref(`/todos/${todo.key}/tasks`).child(taskKey).remove()
+  },
+  genKey: (todo) => {
+    return Firebase.database().ref(`/todos/${todo.key}`).child('tasks').push().key;
   }
 }

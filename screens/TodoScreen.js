@@ -47,7 +47,7 @@ export default class TodoScreen extends React.Component {
     super(props);
 
     Todo.get(this.props.todo.key, (snapshotData) =>{
-      let model = snapshotData.val();
+      let model = snapshotData.val().hasOwnProperty("tasks") ? snapshotData.val() : { ...snapshotData.val(), tasks: [] }
 
       model.members = _.keys(model.members);
 
@@ -97,6 +97,7 @@ export default class TodoScreen extends React.Component {
 
   createTask(){
     let newTask = {
+      key: Task.genKey(this.props.todo),
       name: "",
       done: false
     };
