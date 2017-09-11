@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import { Facebook } from './services/Firebase';
+import { Facebook, UID } from './services/Firebase';
 
 import Session from './constants/Session';
 
@@ -52,7 +52,7 @@ export default class MainApplication extends React.Component {
       } else{
         this.setState({isReady: true})
       };
-    }) ;
+    });
   }
 }
 

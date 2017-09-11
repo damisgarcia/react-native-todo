@@ -1,6 +1,7 @@
 export default {
   grid: {
-    flex: 1
+    flex: 1,
+    marginVertical: 16
   },
   row: {
     flexDirection: 'row',

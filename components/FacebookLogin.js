@@ -6,6 +6,7 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { Button }  from 'react-native-elements';
 
 import Colors from "../constants/Colors";
+import FacebookConst from "../constants/FacebookConst";
 
 import UserCallbacks from "../hooks/UserCallbacks";
 
@@ -32,9 +33,7 @@ export default class FacebookLogin extends React.Component{
   async login(){
     this.setState({disabled: true})
 
-    alert("Updated!")
-
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('135375410407639', {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(FacebookConst.appId, {
       permissions: ['public_profile','email'],
     });
 

@@ -1,7 +1,7 @@
 {
   "expo":{
-    "name": "react-native-todo",
-    "description": "An empty new project",
+    "name": "react-native-todo-1.0.3",
+    "description": "Simple Todo List with Facebook and Firebase",
     "slug": "react-native-todo",
     "privacy": "public",
     "sdkVersion": "16.0.0",
@@ -23,7 +23,8 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "br.com.react_native_todo"
+      "package": "br.com.react_native_todo",
+      "versionCode": "4"
     },
     "facebookScheme": "fb135375410407639"
   }

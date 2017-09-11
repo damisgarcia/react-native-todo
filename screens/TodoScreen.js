@@ -25,9 +25,13 @@ import Colors from '../constants/Colors';
 import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';
 
-import Firebase from '../services/Firebase';
 import Helpers from '../services/Helpers';
-import { Todo, Task } from '../services/Models';
+import Firebase from '../services/Firebase';
+
+import {
+  Todo,
+  Task
+} from '../services/Models';
 
 import TaskList from '../components/TaskList';
 import MemberList from '../components/MemberList';
