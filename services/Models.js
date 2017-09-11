@@ -3,15 +3,37 @@ import {
 } from "react-native";
 
 import * as _ from 'lodash';
+
 import Firebase, { UID } from '../services/Firebase';
+import { getExponentPushToken } from '../services/Notification';
 
 export const User = {
-  create: (data) => {
+  create: async (data) => {
+    const token = await getExponentPushToken();
     return Firebase.database().ref(`/users/${data.uid}/profile`).set({
       email: data.email,
       name: data.displayName,
-      avatar: data.photoURL
+      avatar: data.photoURL,
+      expo_token: token,
+      lastLoginDate: new Date()
     })
+  },
+  save: async (data) => {
+    const token = await getExponentPushToken();
+
+    let updates = {}
+
+    let newData = {
+      email:  data.email,
+      name:   data.displayName,
+      avatar: data.photoURL,
+      expo_token: token ,
+      lastLoginDate: new Date().getTime()
+    }
+
+    updates[`/users/${UID}/profile`] = newData;
+
+    return Firebase.database().ref().update(updates);
   },
   get: async (key, callback) =>{
     return await Firebase.database().ref(`/users/${key}`).once("value").then(callback)

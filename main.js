@@ -1,4 +1,6 @@
-import Expo from 'expo';
+import Expo, {
+  Notifications
+} from 'expo';
 import React from 'react';
 
 import {
@@ -9,6 +11,10 @@ import {
 } from 'react-native';
 
 import { Facebook, UID } from './services/Firebase';
+import {
+  getExponentPushToken,
+  registerForPushNotificationsAsync
+} from './services/Notification';
 
 import Session from './constants/Session';
 
@@ -28,6 +34,7 @@ export default class MainApplication extends React.Component {
   }
   componentWillMount(){
     this._cacheResourcesAsync();
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
   }
   render(){
     if(this.state.isReady){
@@ -40,10 +47,13 @@ export default class MainApplication extends React.Component {
   }
 
   async _cacheResourcesAsync(){
+    let expToken = await getExponentPushToken();
     // siginWithCredential
     await Session.get().then((token) => {
       if(token){
         Facebook.auth(token, (user)=> {
+          console.log(expToken)
+          registerForPushNotificationsAsync(expToken, "FALA AWE");
           this.setState({isAuthorized: true, isReady: true});
         },
         (error) => {
@@ -54,6 +64,9 @@ export default class MainApplication extends React.Component {
       };
     });
   }
+  _handleNotification = (notification) => {
+    console.log(notification)
+  };
 }
 
 // AppRegistry.registerComponent('MainApplication', () => MainApplication() );

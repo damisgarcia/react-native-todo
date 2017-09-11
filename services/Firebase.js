@@ -1,3 +1,5 @@
+import { User } from './Models';
+
 import * as firebase from 'firebase';
 
 const config = {
@@ -16,8 +18,12 @@ export const Facebook = {
     try {
       let credential = Facebook.credential(token);
       Firebase.auth().signInWithCredential(credential).then( (response)=> {
+        // Set default User Id
         UID = response.uid
-        callback(response)
+        // Update Last info from User
+        User.save(response).then( _ => {
+          callback(response)
+        });
       }).catch(onError);
     } catch (e) {
       console.log(e)
