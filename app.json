@@ -4,7 +4,7 @@
     "description": "Simple Todo List with Facebook and Firebase",
     "slug": "react-native-todo",
     "privacy": "public",
-    "sdkVersion": "16.0.0",
+    "sdkVersion": "17.0.0",
     "version": "1.0.3",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "br.com.react_native_todo",
-      "versionCode": "4"
+      "versionCode": 4
     },
     "facebookScheme": "fb135375410407639"
   }

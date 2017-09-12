@@ -37,6 +37,7 @@ export default class FacebookLogin extends React.Component{
       permissions: ['public_profile','email'],
     });
 
+
     if (type === 'success') {
 
       UserCallbacks.signInWithFacebookSuccess(token).then( (data) => {
@@ -47,29 +48,6 @@ export default class FacebookLogin extends React.Component{
       this.setState({disabled: true})
     }
   }
-  // async login(){
-  //   this.setState({disabled: true})
-  //   try {
-  //     console.log(LoginManager.logInWithReadPermissions)
-  //     await LoginManager.logInWithReadPermissions(PERMISSIONS);
-  //     AccessToken.getCurrentAccessToken().then( (result)=> {
-  //       if (result.isCancelled) {
-  //         alert("login has error: " + result.error);
-  //       } else{
-  //         UserCallbacks.signInWithFacebookSuccess(result.accessToken.toString()).then( (data) => {
-  //           this.props.onLoginFinished(data)
-  //           this.setState({disabled: false})
-  //         });
-  //       }
-  //     }, (error) => {
-  //       this.setState({disabled: false})
-  //       alert('Login fail with error: ' + error);
-  //     });
-  //   } catch (e) {
-  //     alert(e)
-  //     this.setState({disabled: false})
-  //   }
-  // }
 }
 
 const styles = {

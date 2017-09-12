@@ -17,13 +17,13 @@ export const Facebook = {
   auth: async (token, callback, onError) => {
     try {
       let credential = Facebook.credential(token);
-      Firebase.auth().signInWithCredential(credential).then( (response)=> {
+      Firebase.auth().signInWithCredential(credential).then( (response) => {
         // Set default User Id
         UID = response.uid
         // Update Last info from User
-        User.save(response).then( _ => {
-          callback(response)
-        });
+        User.save(response)
+        // return to main
+        callback(response)
       }).catch(onError);
     } catch (e) {
       console.log(e)

@@ -1,6 +1,4 @@
-import Expo, {
-  Notifications
-} from 'expo';
+import Expo from 'expo';
 import React from 'react';
 
 import {
@@ -18,6 +16,7 @@ import Navigator from './navigation/Navigator';
 
 export default class MainApplication extends React.Component {
   state = {
+    notification: null,
     isAuthorized: false,
     isReady: false
   }
@@ -31,6 +30,7 @@ export default class MainApplication extends React.Component {
   componentWillMount(){
     this._cacheResourcesAsync();
   }
+
   render(){
     if(this.state.isReady){
       return (
@@ -56,9 +56,6 @@ export default class MainApplication extends React.Component {
       };
     });
   }
-  _handleNotification = (notification) => {
-    console.log(notification)
-  };
 }
 
 // AppRegistry.registerComponent('MainApplication', () => MainApplication() );

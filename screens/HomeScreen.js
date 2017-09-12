@@ -1,4 +1,5 @@
 import React from 'react';
+import { Notifications } from 'expo';
 import { ScrollView, View } from 'react-native';
 import { Text, Button, List, ListItem } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -10,6 +11,7 @@ import Layout from '../constants/Layout';
 
 import Firebase from '../services/Firebase';
 import { Todo } from '../services/Models';
+import { handleNotification } from '../services/Notification';
 
 import LogoutButton from '../components/LogoutButton';
 
@@ -20,7 +22,9 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+  }
 
+  componentWillMount() {
     Todo.all((snapshotData)=> {
       let todos = []
 
@@ -32,6 +36,8 @@ export default class HomeScreen extends React.Component {
         this.setState({todos: todos})
       }
     })
+
+    Notifications.addListener(handleNotification);
   }
 
   render() {

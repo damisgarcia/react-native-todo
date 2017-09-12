@@ -13,7 +13,6 @@ import java.util.List;
 
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
@@ -26,7 +25,6 @@ public class MainApplication extends MultiDexApplication {
 
         // Needed for `react-native link`
         // new MainReactPackage(),
-            new ReactNativePushNotificationPackage(),
             new FBSDKPackage(mCallbackManager),
           new VectorIconsPackage()
     );

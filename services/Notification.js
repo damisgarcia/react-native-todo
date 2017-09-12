@@ -1,9 +1,13 @@
-import { Platform } from 'react-native';
 import { Permissions, Notifications } from 'expo';
+import { Platform } from 'react-native';
+
+import { Actions } from 'react-native-router-flux';
 
 // Example server, implemented in Rails: https://git.io/vKHKv
-// const PUSH_ENDPOINT = 'https://exponent-push-server.herokuapp.com/tokens';
-const PUSH_ENDPOINT = 'http://192.168.0.109:3000/tokens';
+// const PUSH_ENDPOINT = 'http://10.0.40.109:5000/tokens'; DEV
+const PUSH_ENDPOINT = 'http://expo-server-cloud-mensage.herokuapp.com/tokens';
+
+export var SelectedNotification = null;
 
 export async function getExponentPushToken(){
   // Android remote notification permissions are granted during the app
@@ -33,7 +37,26 @@ export async function registerForPushNotificationsAsync(token, message, data) {
       token: {
         value: token
       },
-      message: message
+      message: message,
+      data: data
     }),
   });
+};
+
+export function handleNotification(notification) {
+  let { origin, data } = notification;
+
+  if(origin == 'selected'){
+    switch (data.type) {
+      case 'todo':
+        console.log("ACTION")
+        Actions.todo({
+          title: data.name,
+          todo: data
+        });
+        break;
+      default:
+        return false
+    }
+  }
 };

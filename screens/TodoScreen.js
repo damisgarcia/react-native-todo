@@ -30,7 +30,7 @@ import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';
 
 import Helpers from '../services/Helpers';
-import Firebase from '../services/Firebase';
+import Firebase, { UID } from '../services/Firebase';
 
 import {
   User,
@@ -177,9 +177,23 @@ export default class TodoScreen extends React.Component {
     if(task.done){
       this.state.model.members.forEach((member) => {
         User.get(member, (user)=> {
-          let expoToken = user.val().profile.expo_token;
+          // skip if user is currentUser
+          if(user.key == UID){
+            return false
+          }
+
+          let { profile } = user.val();
+
+          let data = {
+            type: "todo",
+            ..._.omit(this.props.todo, ['members','tasks'])
+          }
+
+          let message = `Task ${task.name} finished by ${Firebase.auth().currentUser.displayName}.`;
+          let expoToken = profile.expo_token;
+
           if(expoToken){
-            registerForPushNotificationsAsync(expoToken, `Task ${task.name} finished by ${Firebase.auth().currentUser.displayName}.`);
+            registerForPushNotificationsAsync(expoToken, message, data);
           };
         });
       });

@@ -8,6 +8,7 @@ import { User } from '../services/Models';
 
 export default {
   signInWithFacebookSuccess: async (token) =>{
+    console.log("TOKEN",token)
     return new Promise( (resolve, reject) => {
       Facebook.auth(token, (user)=> {
         User.create(user).then(() =>{
