@@ -18,6 +18,9 @@ export const User = {
       lastLoginDate: new Date()
     })
   },
+  get: async (key, callback) => {
+    return Firebase.database().ref(`/users/${data.uid}`).once("value").then(callback)
+  },
   save: async (data) => {
     const token = await getExponentPushToken();
 

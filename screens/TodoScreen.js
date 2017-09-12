@@ -17,6 +17,10 @@ import {
   ListItem,
 } from 'react-native-elements';
 
+import {
+  registerForPushNotificationsAsync
+} from '../services/Notification';
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Actions } from 'react-native-router-flux';
@@ -29,6 +33,7 @@ import Helpers from '../services/Helpers';
 import Firebase from '../services/Firebase';
 
 import {
+  User,
   Todo,
   Task
 } from '../services/Models';
@@ -168,6 +173,17 @@ export default class TodoScreen extends React.Component {
 
   _onChangeToggleTask(task) {
     task.done = !task.done;
+    // Notify Members
+    if(task.done){
+      this.state.model.members.forEach((member) => {
+        User.get(member, (user)=> {
+          let expoToken = user.val().profile.expo_token;
+          if(expoToken){
+            registerForPushNotificationsAsync(expoToken, `Task ${task.name} finished by ${Firebase.auth().currentUser.displayName}.`);
+          };
+        });
+      });
+    };
     // Update State
     this.setState({model: this.state.model});
     // Sync with Database
