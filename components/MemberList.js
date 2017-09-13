@@ -55,7 +55,7 @@ export default class MemberList extends React.Component {
 
   inviteMember(){
     Share.share({
-      message: `Copy and paste the code this code your application: \n ${this.props.parent.key.toString()}`,
+      message: `Copy and paste the code this code your application: \n ${this.props.parent.joinKey.toString()}`,
       title: `You have been invited to be part of the ${this.props.parent.name} list.`
     });
   }

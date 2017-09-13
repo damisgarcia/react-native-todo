@@ -1,10 +1,10 @@
 import React from 'react';
 import { Notifications } from 'expo';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Share } from 'react-native';
 import { Text, Button, List, ListItem } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
-import * as _  from "lodash";
+import * as _ from "lodash";
 
 import Theme from '../constants/Theme';
 import Layout from '../constants/Layout';

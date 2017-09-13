@@ -39,13 +39,14 @@ export default class FacebookLogin extends React.Component{
 
 
     if (type === 'success') {
-
-      UserCallbacks.signInWithFacebookSuccess(token).then( (data) => {
+      await UserCallbacks.signInWithFacebookSuccess(token).then( (data) => {
         this.props.onLoginFinished(data)
         this.setState({disabled: false})
-      });
-
-      this.setState({disabled: true})
+      }).catch( _=> {
+        this.setState({disabled: false})
+      })
+    } else {
+      this.setState({disabled: false})
     }
   }
 }

@@ -4,6 +4,7 @@ import {
 
 import * as _ from 'lodash';
 
+import Helpers from '../services/Helpers';
 import Firebase, { UID } from '../services/Firebase';
 import { getExponentPushToken } from '../services/Notification';
 
@@ -58,6 +59,7 @@ export const Todo = {
       todoKey =  Firebase.database().ref(`/todos`).push().key;
 
       data.members = {}
+      data.joinKey = Helpers.genSecureKey(6)
       data.owner = UID
       data.members[UID] = true
     }
@@ -81,17 +83,19 @@ export const Todo = {
       return ToastAndroid.show(e, ToastAndroid.LONG);
     }
   },
-  joinMember: async (todoKey, callback) => {
+  joinMember: async (joinKey, callback) => {
     let updates = {};
 
-    Todo.get(todoKey, (snapshotData) => {
+    Firebase.database().ref('/todos').orderByChild("joinKey").equalTo(joinKey).once("value", (snapshotData) => {
       if(snapshotData.val() !== null){
-        updates[`/todos/${todoKey}/members/${UID}`] = true
-        try {
-          Firebase.database().ref().update(updates).then(callback)
-        } catch (e) {
-          return ToastAndroid.show(e, ToastAndroid.LONG);
-        }
+        snapshotData.forEach((todo) => {
+          updates[`/todos/${todo.key}/members/${UID}`] = true
+          try {
+            Firebase.database().ref().update(updates).then(callback)
+          } catch (e) {
+            return ToastAndroid.show(e, ToastAndroid.LONG);
+          }
+        })
       } else{
         return ToastAndroid.show("Code Incorrect", ToastAndroid.LONG);
       }

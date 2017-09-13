@@ -26,6 +26,7 @@
       "package": "br.com.react_native_todo",
       "versionCode": 4
     },
-    "facebookScheme": "fb135375410407639"
+    "facebookScheme": "fb135375410407639",
+    "scheme": "reactodo"
   }
 }
